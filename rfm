@@ -1,0 +1,260 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "92c7d812-81e6-4862-9812-7c6e4f13a066",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: streamlit in /Applications/anaconda3/lib/python3.12/site-packages (1.37.1)\n",
+      "Requirement already satisfied: altair<6,>=4.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (5.0.1)\n",
+      "Requirement already satisfied: blinker<2,>=1.0.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (1.6.2)\n",
+      "Requirement already satisfied: cachetools<6,>=4.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (5.3.3)\n",
+      "Requirement already satisfied: click<9,>=7.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (8.1.7)\n",
+      "Requirement already satisfied: numpy<3,>=1.20 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (1.26.4)\n",
+      "Requirement already satisfied: packaging<25,>=20 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (24.1)\n",
+      "Requirement already satisfied: pandas<3,>=1.3.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (2.2.2)\n",
+      "Requirement already satisfied: pillow<11,>=7.1.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (10.4.0)\n",
+      "Requirement already satisfied: protobuf<6,>=3.20 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (4.25.3)\n",
+      "Requirement already satisfied: pyarrow>=7.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (16.1.0)\n",
+      "Requirement already satisfied: requests<3,>=2.27 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (2.32.3)\n",
+      "Requirement already satisfied: rich<14,>=10.14.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (13.7.1)\n",
+      "Requirement already satisfied: tenacity<9,>=8.1.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (8.2.3)\n",
+      "Requirement already satisfied: toml<2,>=0.10.1 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (0.10.2)\n",
+      "Requirement already satisfied: typing-extensions<5,>=4.3.0 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (4.11.0)\n",
+      "Requirement already satisfied: gitpython!=3.1.19,<4,>=3.0.7 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (3.1.43)\n",
+      "Requirement already satisfied: pydeck<1,>=0.8.0b4 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (0.8.0)\n",
+      "Requirement already satisfied: tornado<7,>=6.0.3 in /Applications/anaconda3/lib/python3.12/site-packages (from streamlit) (6.4.1)\n",
+      "Requirement already satisfied: jinja2 in /Applications/anaconda3/lib/python3.12/site-packages (from altair<6,>=4.0->streamlit) (3.1.4)\n",
+      "Requirement already satisfied: jsonschema>=3.0 in /Applications/anaconda3/lib/python3.12/site-packages (from altair<6,>=4.0->streamlit) (4.23.0)\n",
+      "Requirement already satisfied: toolz in /Applications/anaconda3/lib/python3.12/site-packages (from altair<6,>=4.0->streamlit) (0.12.0)\n",
+      "Requirement already satisfied: gitdb<5,>=4.0.1 in /Applications/anaconda3/lib/python3.12/site-packages (from gitpython!=3.1.19,<4,>=3.0.7->streamlit) (4.0.7)\n",
+      "Requirement already satisfied: python-dateutil>=2.8.2 in /Applications/anaconda3/lib/python3.12/site-packages (from pandas<3,>=1.3.0->streamlit) (2.9.0.post0)\n",
+      "Requirement already satisfied: pytz>=2020.1 in /Applications/anaconda3/lib/python3.12/site-packages (from pandas<3,>=1.3.0->streamlit) (2024.1)\n",
+      "Requirement already satisfied: tzdata>=2022.7 in /Applications/anaconda3/lib/python3.12/site-packages (from pandas<3,>=1.3.0->streamlit) (2023.3)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in /Applications/anaconda3/lib/python3.12/site-packages (from requests<3,>=2.27->streamlit) (3.3.2)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in /Applications/anaconda3/lib/python3.12/site-packages (from requests<3,>=2.27->streamlit) (3.7)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in /Applications/anaconda3/lib/python3.12/site-packages (from requests<3,>=2.27->streamlit) (2.2.3)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in /Applications/anaconda3/lib/python3.12/site-packages (from requests<3,>=2.27->streamlit) (2025.4.26)\n",
+      "Requirement already satisfied: markdown-it-py>=2.2.0 in /Applications/anaconda3/lib/python3.12/site-packages (from rich<14,>=10.14.0->streamlit) (2.2.0)\n",
+      "Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /Applications/anaconda3/lib/python3.12/site-packages (from rich<14,>=10.14.0->streamlit) (2.15.1)\n",
+      "Requirement already satisfied: smmap<5,>=3.0.1 in /Applications/anaconda3/lib/python3.12/site-packages (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit) (4.0.0)\n",
+      "Requirement already satisfied: MarkupSafe>=2.0 in /Applications/anaconda3/lib/python3.12/site-packages (from jinja2->altair<6,>=4.0->streamlit) (2.1.3)\n",
+      "Requirement already satisfied: attrs>=22.2.0 in /Applications/anaconda3/lib/python3.12/site-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (23.1.0)\n",
+      "Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /Applications/anaconda3/lib/python3.12/site-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (2023.7.1)\n",
+      "Requirement already satisfied: referencing>=0.28.4 in /Applications/anaconda3/lib/python3.12/site-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (0.30.2)\n",
+      "Requirement already satisfied: rpds-py>=0.7.1 in /Applications/anaconda3/lib/python3.12/site-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (0.10.6)\n",
+      "Requirement already satisfied: mdurl~=0.1 in /Applications/anaconda3/lib/python3.12/site-packages (from markdown-it-py>=2.2.0->rich<14,>=10.14.0->streamlit) (0.1.0)\n",
+      "Requirement already satisfied: six>=1.5 in /Applications/anaconda3/lib/python3.12/site-packages (from python-dateutil>=2.8.2->pandas<3,>=1.3.0->streamlit) (1.16.0)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install streamlit"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "1c371da9-9d3e-455e-b2cc-a89a3ff856e2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import streamlit as st\n",
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "05191ed0-5bae-43b3-bb2f-269a3d7783ed",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.read_csv(\"RFM_t.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "8dde94e3-dfa6-4bbe-8821-81871a47d44d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "2025-05-10 14:25:30.704 \n",
+      "  \u001b[33m\u001b[1mWarning:\u001b[0m to view this Streamlit app on a browser, run it with the following\n",
+      "  command:\n",
+      "\n",
+      "    streamlit run /Applications/anaconda3/lib/python3.12/site-packages/ipykernel_launcher.py [ARGUMENTS]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "DeltaGenerator()"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "st.title(\"RFM Score Dashboard\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "d4114599-8aa3-4187-9607-02e1110559e3",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "DeltaGenerator()"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "st.subheader(\"Raw RFM Data\")\n",
+    "st.dataframe(df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "eab7d5e7-899a-4093-b2e0-8a1aa1ec5226",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "st.subheader(\"Summary Statistics\")\n",
+    "st.write(df.describe())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "4cc066e8-fea9-4f5a-8c31-9645d51320a2",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "2025-05-10 14:36:46.371 Session state does not function when running a script without `streamlit run`\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "DeltaGenerator()"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "st.subheader(\"Filter by RFM Score\")\n",
+    "selected_score = st.slider(\"Select RFM Score:\", int(df['RFM_score'].min()), int(df['RFM_score'].max()), step = 1)\n",
+    "filtered_df = df[df['RFM_score'] == selected_score]\n",
+    "st.write(f\"Customers with RFM Score = {selected_score}\")\n",
+    "st.dataframe(filtered_df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "6b82e288-d88c-42c7-8c34-a38b3965633c",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "DeltaGenerator()"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "st.subheader(\"Distribution of RFM Scores\")\n",
+    "rfm_counts = df['RFM_score'].value_counts().sort_index()\n",
+    "st.bar_chart(rfm_counts)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "6ae99e5a-953f-4c10-bb45-549e60608cb4",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "False"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "st.subheader(\"Download Filtered Data\")\n",
+    "csv = filtered_df.to_csv(index = False)\n",
+    "st.download_button(\n",
+    "    label = \"Download as CSV\",\n",
+    "    data = csv,\n",
+    "    file_name = f'filtered_rfm_{selected_score}.csv',\n",
+    "    mime = 'text/csv',\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3ae5b1ae-ce2b-4f08-9013-bbac43575a26",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python [conda env:base] *",
+   "language": "python",
+   "name": "conda-base-py"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
